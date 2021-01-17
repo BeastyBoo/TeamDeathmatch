@@ -1,0 +1,7 @@
+name: TeamDeathmatch
+version: ${project.version}
+main: com.github.beastyboo.teamdeathmatch.application.TeamDeathmatchPlugin
+api-version: 1.16
+authors: [ BeastyBoo ]
+description: A basic team deathmatch plugin
+website: https://github.com/beastyboo
