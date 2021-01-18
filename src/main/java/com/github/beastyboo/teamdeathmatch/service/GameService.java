@@ -102,8 +102,11 @@ public class GameService implements GameRepository {
             return false;
         }
 
-        Bukkit.getOnlinePlayers().forEach(player -> player.teleport(player.getWorld().getSpawnLocation()));
-        Bukkit.getOnlinePlayers().forEach(player -> core.getGameAPI().deleteGamePlayer(game, player));
+        Set<Player> players = new HashSet<>();
+        game.getPlayers().values().forEach(gamePlayer -> players.add(Bukkit.getPlayer(gamePlayer.getUuid())));
+        players.forEach(player -> player.teleport(player.getWorld().getSpawnLocation()));
+        players.forEach(player -> core.getGameAPI().deleteGamePlayer(game, player));
+
 
         int blue = game.getScoreboard().get(Team.BLUE);
         int red = game.getScoreboard().get(Team.RED);
