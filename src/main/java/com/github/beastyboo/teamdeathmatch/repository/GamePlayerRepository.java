@@ -1,19 +1,18 @@
 package com.github.beastyboo.teamdeathmatch.repository;
 
+import com.github.beastyboo.teamdeathmatch.domain.Game;
 import com.github.beastyboo.teamdeathmatch.domain.GamePlayer;
+import com.github.beastyboo.teamdeathmatch.domain.Team;
+import org.bukkit.entity.Player;
 
 import java.util.Set;
 import java.util.UUID;
 
 public interface GamePlayerRepository {
 
-    void load();
+    boolean createGamePlayer(Game game, Team team, Player player);
 
-    void close();
-
-    boolean createGamePlayer(UUID uuid);
-
-    boolean deleteGamePlayer(UUID uuid);
+    boolean deleteGamePlayer(Game game, Player player);
 
     GamePlayer getGamePlayer(UUID uuid);
 

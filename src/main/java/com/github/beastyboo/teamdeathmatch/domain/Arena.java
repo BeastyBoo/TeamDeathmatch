@@ -7,8 +7,8 @@ import java.util.Objects;
 public class Arena {
 
     private final String name;
-    private final Location blueSpawn;
-    private final Location redSpawn;
+    private Location blueSpawn;
+    private Location redSpawn;
 
     public Arena(String name, Location blueSpawn, Location redSpawn) {
         this.name = name;
@@ -26,6 +26,14 @@ public class Arena {
 
     public Location getRedSpawn() {
         return redSpawn;
+    }
+
+    public void setBlueSpawn(Location blueSpawn) {
+        this.blueSpawn = blueSpawn;
+    }
+
+    public void setRedSpawn(Location redSpawn) {
+        this.redSpawn = redSpawn;
     }
 
     @Override

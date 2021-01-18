@@ -2,6 +2,7 @@ package com.github.beastyboo.teamdeathmatch.repository;
 
 import com.github.beastyboo.teamdeathmatch.domain.Arena;
 import com.github.beastyboo.teamdeathmatch.domain.Team;
+import org.bukkit.entity.Player;
 
 import java.util.Set;
 
@@ -11,11 +12,11 @@ public interface ArenaRepository {
 
     void close();
 
-    boolean createArena(String name);
+    boolean createArena(Player player, String name);
 
-    boolean deleteArena(String name);
+    boolean deleteArena(Player player, String name);
 
-    boolean createSpawn(String name, String team);
+    boolean createSpawn(Player player, String name, String team);
 
     Arena getArena(String name);
 

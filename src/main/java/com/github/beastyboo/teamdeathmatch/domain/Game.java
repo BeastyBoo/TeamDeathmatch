@@ -8,8 +8,8 @@ public class Game {
 
     private final String name;
     private final Arena arena;
-    private final int lenght;
-    private final boolean running;
+    private int lenght;
+    private boolean running;
     private final Map<Team, Integer> scoreboard;
     private final Map<UUID, GamePlayer> players;
 
@@ -44,6 +44,14 @@ public class Game {
 
     public Map<UUID, GamePlayer> getPlayers() {
         return players;
+    }
+
+    public void setRunning(boolean running) {
+        this.running = running;
+    }
+
+    public void setLenght(int lenght) {
+        this.lenght = lenght;
     }
 
     @Override

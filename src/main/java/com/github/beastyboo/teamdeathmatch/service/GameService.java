@@ -1,52 +1,123 @@
 package com.github.beastyboo.teamdeathmatch.service;
 
 import com.github.beastyboo.teamdeathmatch.application.TCore;
+import com.github.beastyboo.teamdeathmatch.domain.Arena;
 import com.github.beastyboo.teamdeathmatch.domain.Game;
+import com.github.beastyboo.teamdeathmatch.domain.GamePlayer;
+import com.github.beastyboo.teamdeathmatch.domain.Team;
 import com.github.beastyboo.teamdeathmatch.repository.GameRepository;
+import org.bukkit.Bukkit;
+import org.bukkit.entity.Player;
 
-import java.util.HashMap;
-import java.util.HashSet;
-import java.util.Map;
-import java.util.Set;
+import java.util.*;
 
 public class GameService implements GameRepository {
 
-    private final TCore plugin;
+    private final TCore core;
     private final Map<String, Game> games;
 
-    public GameService(TCore plugin) {
-        this.plugin = plugin;
+    public GameService(TCore core) {
+        this.core = core;
         games = new HashMap<>();
     }
 
     @Override
-    public void load() {
-        
+    public boolean createGame(Player player, String name, String arena) {
+
+        if(this.getGame(name.toLowerCase()) != null) {
+            player.sendMessage("Game with this name already exist");
+            return false;
+        }
+
+        Arena arena1 = core.getGameAPI().getArena(arena);
+
+        if(arena1 == null) {
+            player.sendMessage("Can't find arena: "  + arena);
+            return false;
+        }
+
+        games.put(name.toLowerCase(), new Game(name, arena1, 600, false, new HashMap<Team, Integer>(), new HashMap<UUID, GamePlayer>()));
+        player.sendMessage("Game successfully created!");
+
+        return true;
     }
 
     @Override
-    public void close() {
+    public boolean deleteGame(Player player, String name) {
+        Game game = this.getGame(name);
 
+        if(game == null) {
+            player.sendMessage("Game don't exist");
+            return false;
+        }
+
+        if(game.isRunning()) {
+            player.sendMessage("Wait until game is finished!");
+            return false;
+        }
+
+        games.remove(name.toLowerCase(), game);
+        player.sendMessage("Game removed!");
+
+        return true;
     }
 
     @Override
-    public boolean createGame(String name, String arena) {
-        return false;
+    public boolean startGame(Game game) {
+
+        if(game.isRunning()) {
+            return false;
+        }
+
+        List[] divided = this.split(Arrays.asList(Bukkit.getOnlinePlayers().toArray()));
+
+        for(Object object : divided[0]) {
+            if(object instanceof Player) {
+                Player player = (Player) object;
+
+                core.getGameAPI().createGamePlayer(game, Team.BLUE, player);
+                player.teleport(game.getArena().getBlueSpawn());
+            }
+        }
+
+        for(Object object : divided[1]) {
+            if(object instanceof Player) {
+                Player player = (Player) object;
+
+                core.getGameAPI().createGamePlayer(game, Team.RED, player);
+                player.teleport(game.getArena().getRedSpawn());
+            }
+        }
+
+        game.setRunning(true);
+        Bukkit.broadcastMessage(game.getName() + " HAS STARTED!!!");
+
+        return true;
     }
 
     @Override
-    public boolean deleteGame(String name) {
-        return false;
-    }
+    public boolean endGame(Game game) {
 
-    @Override
-    public boolean startGame(String name) {
-        return false;
-    }
+        if(!game.isRunning()) {
+            return false;
+        }
 
-    @Override
-    public boolean endGame(String name) {
-        return false;
+        Bukkit.getOnlinePlayers().forEach(player -> player.teleport(player.getWorld().getSpawnLocation()));
+        Bukkit.getOnlinePlayers().forEach(player -> core.getGameAPI().deleteGamePlayer(game, player));
+
+        int blue = game.getScoreboard().get(Team.BLUE);
+        int red = game.getScoreboard().get(Team.RED);
+
+        if(blue > red) {
+            Bukkit.broadcastMessage("BLUE HAS WON!");
+        } else if(red > blue) {
+            Bukkit.broadcastMessage("RED HAS WON!");
+        } else {
+            Bukkit.broadcastMessage("IT'S A TIE!");
+        }
+
+        games.remove(game.getName().toLowerCase(), game);
+        return true;
     }
 
     @Override
@@ -68,4 +139,14 @@ public class GameService implements GameRepository {
         }
         return activeGames;
     }
+
+    private <T> List[] split(List<T> list) {
+        int size = list.size();
+
+        List<T> first = new ArrayList<>(list.subList(0, (size + 1)/2));
+        List<T> second = new ArrayList<>(list.subList((size + 1)/2, size));
+
+        return new List[] {first, second};
+    }
+
 }

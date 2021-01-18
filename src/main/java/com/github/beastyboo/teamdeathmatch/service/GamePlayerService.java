@@ -1,39 +1,54 @@
 package com.github.beastyboo.teamdeathmatch.service;
 
 import com.github.beastyboo.teamdeathmatch.application.TCore;
+import com.github.beastyboo.teamdeathmatch.domain.Game;
 import com.github.beastyboo.teamdeathmatch.domain.GamePlayer;
+import com.github.beastyboo.teamdeathmatch.domain.Team;
 import com.github.beastyboo.teamdeathmatch.repository.GamePlayerRepository;
+import org.bukkit.entity.Player;
 
 import java.util.*;
 
 public class GamePlayerService implements GamePlayerRepository {
 
-    private final TCore plugin;
+    private final TCore core;
     private final Map<UUID, GamePlayer> gamePlayers;
 
-    public GamePlayerService(TCore plugin) {
-        this.plugin = plugin;
+    public GamePlayerService(TCore core) {
+        this.core = core;
         gamePlayers = new HashMap<>();
     }
 
     @Override
-    public void load() {
+    public boolean createGamePlayer(Game game, Team team, Player player) {
+        UUID uuid = player.getUniqueId();
 
+        if(this.getGamePlayer(uuid) != null) {
+            return false;
+        }
+
+        GamePlayer gamePlayer = new GamePlayer(uuid, team);
+        gamePlayers.put(uuid, gamePlayer);
+        game.getPlayers().put(uuid, gamePlayer);
+        player.sendMessage("You've been added to team " + team.toString());
+
+        return true;
     }
 
     @Override
-    public void close() {
+    public boolean deleteGamePlayer(Game game, Player player) {
+        UUID uuid = player.getUniqueId();
+        GamePlayer gamePlayer = this.getGamePlayer(player.getUniqueId());
 
-    }
+        if(gamePlayer == null) {
+            return false;
+        }
 
-    @Override
-    public boolean createGamePlayer(UUID uuid) {
-        return false;
-    }
+        gamePlayers.remove(uuid, gamePlayer);
+        game.getPlayers().remove(uuid, gamePlayer);
+        player.sendMessage("You've been added to a game");
 
-    @Override
-    public boolean deleteGamePlayer(UUID uuid) {
-        return false;
+        return true;
     }
 
     @Override
