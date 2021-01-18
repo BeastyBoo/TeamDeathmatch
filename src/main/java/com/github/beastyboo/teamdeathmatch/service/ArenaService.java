@@ -40,7 +40,7 @@ public class ArenaService implements ArenaRepository {
 
         Location defaultLoc = player.getWorld().getSpawnLocation();
 
-        arenas.put(name.toLowerCase(), new Arena(name, defaultLoc, defaultLoc));
+        arenas.put(name.toLowerCase(), Arena.Factory.createArena(name, defaultLoc, defaultLoc));
         player.sendMessage("Arena created! add spawns to make it playable!");
         return true;
     }

@@ -10,10 +10,16 @@ public class Arena {
     private Location blueSpawn;
     private Location redSpawn;
 
-    public Arena(String name, Location blueSpawn, Location redSpawn) {
+    private Arena(String name, Location blueSpawn, Location redSpawn) {
         this.name = name;
         this.blueSpawn = blueSpawn;
         this.redSpawn = redSpawn;
+    }
+
+    public static class Factory {
+        public static Arena createArena(String name, Location blueSpawn, Location redSpawn) {
+            return new Arena(name, blueSpawn, redSpawn);
+        }
     }
 
     public String getName() {

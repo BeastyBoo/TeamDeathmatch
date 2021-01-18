@@ -36,7 +36,7 @@ public class GameService implements GameRepository {
             return false;
         }
 
-        games.put(name.toLowerCase(), new Game(name, arena1, 600, false, new HashMap<Team, Integer>(), new HashMap<UUID, GamePlayer>()));
+        games.put(name.toLowerCase(), Game.Factory.createGame(name, arena1, 600));
         player.sendMessage("Game successfully created!");
 
         return true;

@@ -8,9 +8,15 @@ public class GamePlayer {
     private final UUID uuid;
     private final Team team;
 
-    public GamePlayer(UUID uuid, Team team) {
+    private GamePlayer(UUID uuid, Team team) {
         this.uuid = uuid;
         this.team = team;
+    }
+
+    public static class Factory {
+        public static GamePlayer createGamePlayer(UUID uuid, Team team) {
+            return new GamePlayer(uuid, team);
+        }
     }
 
     public UUID getUuid() {

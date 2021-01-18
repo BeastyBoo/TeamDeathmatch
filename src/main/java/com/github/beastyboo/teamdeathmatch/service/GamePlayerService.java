@@ -27,7 +27,7 @@ public class GamePlayerService implements GamePlayerRepository {
             return false;
         }
 
-        GamePlayer gamePlayer = new GamePlayer(uuid, team);
+        GamePlayer gamePlayer = GamePlayer.Factory.createGamePlayer(uuid, team);
         gamePlayers.put(uuid, gamePlayer);
         game.getPlayers().put(uuid, gamePlayer);
         player.sendMessage("You've been added to team " + team.toString());
