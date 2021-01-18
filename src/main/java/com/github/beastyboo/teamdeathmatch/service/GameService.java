@@ -124,8 +124,48 @@ public class GameService implements GameRepository {
     }
 
     @Override
+    public boolean addKill(UUID uuid) {
+        Game game = this.getGame(uuid);
+
+        if(game == null) {
+            return false;
+        }
+
+        Team team = this.getTeam(game, uuid);
+
+        if(team == null) {
+            return false;
+        }
+
+        int i = game.getScoreboard().get(team);
+        game.getScoreboard().put(team, i++);
+
+        return true;
+    }
+
+    @Override
+    public Team getTeam(Game game, UUID uuid) {
+        for (GamePlayer gamePlayer : game.getPlayers().values()) {
+            if(gamePlayer.getUuid().equals(uuid))
+                return gamePlayer.getTeam();
+        }
+        return null;
+    }
+
+    @Override
     public Game getGame(String name) {
         return games.get(name.toLowerCase());
+    }
+
+    @Override
+    public Game getGame(UUID uuid) {
+        for(Game game : games.values()) {
+            for(GamePlayer gamePlayer : game.getPlayers().values()) {
+                if(gamePlayer.getUuid().equals(uuid))
+                    return game;
+            }
+        }
+        return null;
     }
 
     @Override
