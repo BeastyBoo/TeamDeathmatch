@@ -1,4 +1,4 @@
-package com.github.beastyboo.teamdeathmatch.entrypoint;
+package com.github.beastyboo.teamdeathmatch.application;
 
 import com.github.beastyboo.teamdeathmatch.application.TCore;
 import com.github.beastyboo.teamdeathmatch.domain.Arena;
@@ -19,16 +19,25 @@ import java.util.UUID;
 public class GameAPI {
 
     private final TCore core;
-    private final ArenaRepository arena;
-    private final GamePlayerRepository gamePlayer;
-    private final GameRepository game;
+    private ArenaRepository arena;
+    private GamePlayerRepository gamePlayer;
+    private GameRepository game;
 
     public GameAPI(TCore core) {
         this.core = core;
+
+    }
+
+    protected void initializeService() {
         arena = new ArenaService(core);
         gamePlayer = new GamePlayerService(core);
         game = new GameService(core);
     }
+
+    protected void start() {
+
+    }
+
 
     public boolean createArena(Player player, String name) {
         return arena.createArena(player, name);

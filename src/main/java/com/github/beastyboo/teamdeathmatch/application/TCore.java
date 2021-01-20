@@ -1,6 +1,5 @@
 package com.github.beastyboo.teamdeathmatch.application;
 
-import com.github.beastyboo.teamdeathmatch.entrypoint.GameAPI;
 import org.bukkit.plugin.java.JavaPlugin;
 
 public class TCore {
@@ -14,6 +13,10 @@ public class TCore {
 
     void load() {
         gameAPI = new GameAPI(this);
+
+        //Service logics.
+        gameAPI.initializeService();
+        gameAPI.start();
     }
 
     void close() {
