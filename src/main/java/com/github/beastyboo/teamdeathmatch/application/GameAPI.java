@@ -35,7 +35,11 @@ public class GameAPI {
     }
 
     protected void start() {
+        arena.load();
+    }
 
+    protected void close() {
+        arena.close();
     }
 
 

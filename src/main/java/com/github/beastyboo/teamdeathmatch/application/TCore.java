@@ -20,7 +20,7 @@ public class TCore {
     }
 
     void close() {
-
+        gameAPI.close();
     }
 
     public GameAPI getGameAPI() {
