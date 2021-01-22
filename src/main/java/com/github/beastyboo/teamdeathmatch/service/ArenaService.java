@@ -1,6 +1,6 @@
 package com.github.beastyboo.teamdeathmatch.service;
 
-import com.github.beastyboo.teamdeathmatch.application.TCore;
+import com.github.beastyboo.teamdeathmatch.application.GameCore;
 import com.github.beastyboo.teamdeathmatch.domain.Arena;
 import com.github.beastyboo.teamdeathmatch.repository.ArenaRepository;
 import org.bukkit.Location;
@@ -13,10 +13,10 @@ import java.util.Set;
 
 public class ArenaService implements ArenaRepository {
 
-    private final TCore core;
+    private final GameCore core;
     private final Map<String, Arena> arenas;
 
-    public ArenaService(TCore core) {
+    public ArenaService(GameCore core) {
         this.core = core;
         arenas = new HashMap<>();
     }

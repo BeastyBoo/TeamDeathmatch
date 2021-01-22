@@ -1,6 +1,5 @@
 package com.github.beastyboo.teamdeathmatch.application;
 
-import com.github.beastyboo.teamdeathmatch.application.TCore;
 import com.github.beastyboo.teamdeathmatch.domain.Arena;
 import com.github.beastyboo.teamdeathmatch.domain.Game;
 import com.github.beastyboo.teamdeathmatch.domain.GamePlayer;
@@ -18,12 +17,12 @@ import java.util.UUID;
 
 public class GameAPI {
 
-    private final TCore core;
+    private final GameCore core;
     private ArenaRepository arena;
     private GamePlayerRepository gamePlayer;
     private GameRepository game;
 
-    public GameAPI(TCore core) {
+    public GameAPI(GameCore core) {
         this.core = core;
 
     }

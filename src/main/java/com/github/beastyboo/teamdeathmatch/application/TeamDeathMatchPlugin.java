@@ -3,15 +3,14 @@ package com.github.beastyboo.teamdeathmatch.application;
 import org.bukkit.plugin.java.JavaPlugin;
 
 import java.util.logging.Level;
-import java.util.logging.Logger;
 
 public final class TeamDeathMatchPlugin extends JavaPlugin {
 
-    private TCore core;
+    private GameCore core;
 
     @Override
     public void onEnable() {
-        core = new TCore(this);
+        core = new GameCore(this);
         core.load();
     }
 

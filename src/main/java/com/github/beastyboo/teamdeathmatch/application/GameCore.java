@@ -2,12 +2,12 @@ package com.github.beastyboo.teamdeathmatch.application;
 
 import org.bukkit.plugin.java.JavaPlugin;
 
-public class TCore {
+public class GameCore {
 
     private final JavaPlugin plugin;
     private GameAPI gameAPI;
 
-    public TCore(JavaPlugin plugin) {
+    public GameCore(JavaPlugin plugin) {
         this.plugin = plugin;
     }
 

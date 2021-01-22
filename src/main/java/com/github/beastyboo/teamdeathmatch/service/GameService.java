@@ -1,6 +1,6 @@
 package com.github.beastyboo.teamdeathmatch.service;
 
-import com.github.beastyboo.teamdeathmatch.application.TCore;
+import com.github.beastyboo.teamdeathmatch.application.GameCore;
 import com.github.beastyboo.teamdeathmatch.domain.Arena;
 import com.github.beastyboo.teamdeathmatch.domain.Game;
 import com.github.beastyboo.teamdeathmatch.domain.GamePlayer;
@@ -13,10 +13,10 @@ import java.util.*;
 
 public class GameService implements GameRepository {
 
-    private final TCore core;
+    private final GameCore core;
     private final Map<String, Game> games;
 
-    public GameService(TCore core) {
+    public GameService(GameCore core) {
         this.core = core;
         games = new HashMap<>();
     }
